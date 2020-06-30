@@ -69,5 +69,21 @@ router.post('/celebrities/:id/delete', (req, res) => {
     })
   })
 
+router.post('/celebrities/:id/edit', (req, res) => {
+    const { name, occupation, catchPhrase} = req.body;
+    Celebrity.findByIdAndUpdate(req.params.id, {
+      name,
+      occupation,
+      catchPhrase
+    })
+      .then(celebrity => {
+        console.log(`${celebrity.name} info was successfully updated!`)
+        res.redirect(`/celebrities/${celebrity._id}`);
+      })
+      .catch(err => {
+        next(new Error("Couldn't find celebrity: " + err));    // next(err)
+      });
+  })
+
 module.exports = router;
 
