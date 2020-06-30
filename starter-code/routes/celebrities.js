@@ -19,7 +19,7 @@ router.get('/celebrities/:celebrityId', (req, res, next) => {
   const celebrityId = req.params.celebrityId
   Celebrity.findById(celebrityId).then(celebrityFromDatabase => {
 /*     if (err) {
-      next(new Error("Couldn't find celebrity: " + err));
+      
       return;
     }
     // render a 'celebrities' view with the */ //celebrities data
@@ -48,9 +48,24 @@ router.post('/celebrities/', (req, res) => {
     celebrity.save();
     res.redirect(`/celebrities/${celebrity._id}`);
   }).catch(err => {
-    console.log(err);
+    next(new Error("Couldn't find celebrity: " + err));
     res.redirect('celebrities/new');
   })
 })
 
+router.post('/celebrities/:id/delete', (req, res) => {
+  console.log(req.body);
+  // const name = req.body.name;
+  // const occupation = req.body.occupation;
+  // const catchPhrase = req.body.catchPhrase;
+    const id = req.params.id
+    Celebrity.findByIdAndDelete(id).then(() => {
+      res.redirect('/celebrities');
+    })
+    .catch(err => {
+      next(new Error("Couldn't find celebrity: " + err));    // next(err)
+    })
+  })
+
 module.exports = router;
+
