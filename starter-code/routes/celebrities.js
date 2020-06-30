@@ -23,6 +23,16 @@ router.get('/celebrities/:celebrityId', (req, res, next) => {
   })
 });
 
+router.get('/celebrities/:id/edit', (req, res, next) => {
+  // get celebrity by ID from the database
+  const id = req.params.id
+  Celebrity.findById(id).then(celebrity => {
+    res.render('celebrities/edit', { celebrity })
+  }).catch(err => {
+    return next(new Error("Couldn't find celebrity: " + err));
+  });
+})
+
 router.get('/new/', (req, res, next) => {
   res.render('celebrities/new');
 });
