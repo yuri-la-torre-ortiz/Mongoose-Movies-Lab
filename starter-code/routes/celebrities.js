@@ -31,6 +31,8 @@ router.get('/celebrities/:celebrityId', (req, res, next) => {
   })
 });
 
-
+router.get('/celebrities/new', (req, res, next) => {
+  res.render('/celebrities/new');
+});
 
 module.exports = router;
