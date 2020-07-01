@@ -89,7 +89,7 @@ router.post('/celebrities/:id/edit', (req, res) => {
 
 router.get('/movies/', (req, res, next) => {
     // get all the movies from the database
-  Movie.find().then(moviesFromDatabase => {
+  Movie.find().populate('cast').then(moviesFromDatabase => {
       // render a 'movies' view with the movies data
     console.log(moviesFromDatabase);
     res.render('movies/index', { movies: moviesFromDatabase });
@@ -134,6 +134,7 @@ router.get('/movies/:movieId', (req, res, next) => {
   // get movie by ID from the database
   const movieId = req.params.movieId
   Movie.findById(movieId).populate('cast').then(movieFromDatabase => {
+    console.log(movieFromDatabase);
     res.render('movies/show', { movie: movieFromDatabase });
   }).catch(err => {
     return next(new Error("Couldn't find movie: " + err));
